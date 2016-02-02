@@ -98,6 +98,7 @@ def hamming_distance(file):
             line2 = file_object.readline()
             data = [char_line for char_line,char_line2 in zip(line,line2) if char_line != char_line2]
             return(len(data))
+
 #
 # The 20 commonly occurring amino acids are abbreviated by using 20 letters from the English alphabet (all letters except for B, J, O, U, X, and Z). Protein strings are constructed from these 20 symbols. Henceforth, the term genetic string will incorporate protein strings along with DNA strings and RNA strings.
 #
@@ -126,3 +127,37 @@ def translating_rna_to_protein(rna):
                    elif processing == "UAA" or "UAG" or "UGA":
                        break
                 return protein_string
+
+# Given two strings ss and tt, tt is a substring of ss if tt is contained as a contiguous collection of symbols in ss (as a result, tt must be no longer than ss).
+#
+# The position of a symbol in a string is the total number of symbols found to its left, including itself (e.g., the positions of all occurrences of 'U' in "AUGCUUCAGAAAGGUCUUACG" are 2, 5, 6, 15, 17, and 18). The symbol at position ii of ss is denoted by s[i]s[i].
+#
+# A substring of ss can be represented as s[j:k]s[j:k], where jj and kk represent the starting and ending positions of the substring in ss; for example, if ss = "AUGCUUCAGAAAGGUCUUACG", then s[2:5]s[2:5] = "UGCU".
+#
+# The location of a substring s[j:k]s[j:k] is its beginning position jj; note that tt will have multiple locations in ss if it occurs more than once as a substring of ss (see the Sample below).
+#
+# Given: Two DNA strings ss and tt (each of length at most 1 kbp).
+#
+# Return: All locations of tt as a substring of ss.
+
+def compute_motif_dna(dna):
+    with open(dna, 'r') as totalFile:
+        index = []
+        dnaObject = totalFile.readlines()
+        markerToFind = dnaObject[-1].replace('\n','')
+
+        for data in dnaObject:
+            x = data.find(markerToFind)+1
+            while(x > 0):
+                index.append(x)
+                x = data.find(markerToFind,x+1)+1
+            y = str(index).strip('[]').replace(',','')
+            return y
+
+# A common substring of a collection of strings is a substring of every member of the collection. We say that a common substring is a longest common substring if there does not exist a longer common substring. For example, "CG" is a common substring of "ACGTACGT" and "AACCGGTATA", but it is not as long as possible; in this case, "GTA" is a longest common substring of "ACGTACGT" and "AACCGTATA".
+#
+# Note that the longest common substring is not necessarily unique; for a simple example, "AA" and "CC" are both longest common substrings of "AACC" and "CCAA".
+#
+# Given: A collection of kk (k≤100k≤100) DNA strings of length at most 1 kbp each in FASTA format.
+#
+# Return: A longest common substring of the collection. (If multiple solutions exist, you may return any single solution.)
