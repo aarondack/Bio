@@ -154,10 +154,22 @@ def compute_motif_dna(dna):
             y = str(index).strip('[]').replace(',','')
             return y
 
-# A common substring of a collection of strings is a substring of every member of the collection. We say that a common substring is a longest common substring if there does not exist a longer common substring. For example, "CG" is a common substring of "ACGTACGT" and "AACCGGTATA", but it is not as long as possible; in this case, "GTA" is a longest common substring of "ACGTACGT" and "AACCGTATA".
+# In a weighted alphabet, every symbol is assigned a positive real number called a weight. A string formed from a weighted alphabet is called a weighted string, and its weight is equal to the sum of the weights of its symbols.
 #
-# Note that the longest common substring is not necessarily unique; for a simple example, "AA" and "CC" are both longest common substrings of "AACC" and "CCAA".
+# The standard weight assigned to each member of the 20-symbol amino acid alphabet is the monoisotopic mass of the corresponding amino acid.
 #
-# Given: A collection of kk (k≤100k≤100) DNA strings of length at most 1 kbp each in FASTA format.
-#
-# Return: A longest common substring of the collection. (If multiple solutions exist, you may return any single solution.)
+# Given: A protein string P of length at most 1000 aa.
+# Return: The total weight of P. Consult the monoisotopic mass table.
+
+
+def calculate_protein_mass(dna):
+    total = 0
+    monoisotopic_table = { "A" :71.03711,"C":103.00919,"D":115.02694,"E":129.04259,"F":147.06841,"G":57.02146,"H":137.05891,"I":113.08406,
+                           "K":128.09496,"L":113.08406,"M":131.04049,"N":114.04293,"P":97.05276,"Q":128.05858,"R":156.10111,"S":87.03203,
+                           "T":101.04768,"V":99.06841,"W":186.07931,"Y":163.06333 }
+    with open(dna, 'r') as dnaFile:
+        for dnaString in dnaFile:
+            for nucleotide in dnaString:
+             if nucleotide in monoisotopic_table:
+                total += monoisotopic_table[nucleotide]
+            return total
